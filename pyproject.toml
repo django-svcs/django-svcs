@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs", "hatch-fancy-pypi-readme>=23.2.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "django_svcs"
+version = "1.0.0"
+description = "A Django integration for SVCS"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+  {name = "Chris Rose", email = "offline@offby1.net"}
+]
+maintainers = [
+  {name = "Chris Rose", email = "offline@offby1.net"}
+]
+classifiers = [
+
+]
+license = {text = "BSD license"}
+dependencies = [
+  "svcs"
+]
+
+[project.optional-dependencies]
+tests = [
+    "pytest",
+    "pytest-xdist[psutil]",
+    "django>=5.0"  # we don't force a Django version, but we do check it.
+]
+cov = [
+    "django_svcs[tests]",
+    "coverage[toml]>=5.3",
+]
+docs = []
+dev = [
+    "django_svcs[cov]",
+    "django_svcs[docs]",
+]
+
+[project.urls]
+bugs = "https://github.com/offbyone/django_svcs/issues"
+changelog = "https://github.com/offbyone/django_svcs/blob/master/changelog.md"
+homepage = "https://github.com/offbyone/django_svcs"
+
+[[tool.mypy.overrides]]
+# Don't require test functions to include types
+module = "tests.*"
+allow_untyped_defs = true
+disable_error_code = "attr-defined"
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/django_svcs"]
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[tool.ruff]
+src = ["src", "tests", "conftest.py", "docs"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+looponfailroots = ["tests", "src"]
