@@ -1,12 +1,11 @@
 [build-system]
-requires = ["hatchling", "hatch-vcs", "hatch-fancy-pypi-readme>=23.2.0"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
+dynamic = ["version", "readme"]
 name = "django_svcs"
-version = "1.0.0"
 description = "A Django integration for SVCS"
-readme = "README.md"
 requires-python = ">=3.12"
 authors = [
   {name = "Chris Rose", email = "offline@offby1.net"}
@@ -53,8 +52,9 @@ disable_error_code = "attr-defined"
 [tool.hatch.build.targets.wheel]
 packages = ["src/django_svcs"]
 
-[tool.hatch.metadata.hooks.fancy-pypi-readme]
-content-type = "text/markdown"
+[tool.hatch.version]
+source = "vcs"
+#raw-options = { local_scheme = "no-local-version" }
 
 [tool.ruff]
 src = ["src", "tests", "conftest.py", "docs"]
