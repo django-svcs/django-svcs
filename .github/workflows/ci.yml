@@ -63,7 +63,7 @@ jobs:
       - name: Remove src to ensure tests run against wheel
         run: rm -rf src
 
-      - run: python -Im pytest
+      - run: uv run pytest
 
       - name: Upload coverage data
         uses: actions/upload-artifact@v4
@@ -102,7 +102,7 @@ jobs:
       - run: uv venv
       - run: uv pip install .[dev]
 
-      - run: python -Im pytest
+      - run: uv run pytest
 
   coverage:
     name: Combine & check coverage
@@ -132,14 +132,14 @@ jobs:
         run: |
           uv pip install --system coverage[toml]
 
-          python -Im coverage combine
-          python -Im coverage html --skip-covered --skip-empty
+          uv run coverage combine
+          uv run coverage html --skip-covered --skip-empty
 
           # Report and write to summary.
-          python -Im coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+          uv run coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
 
           # Report again and fail if under 100%.
-          python -Im coverage report --fail-under=100
+          uv run coverage report --fail-under=100
 
       - name: Upload HTML report if check failed.
         uses: actions/upload-artifact@v4
