@@ -1,12 +1,12 @@
 [build-system]
-requires = ["hatchling", "hatch-vcs", "hatch-fancy-pypi-readme>=23.2.0"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
+dynamic = ["version"]
 name = "django_svcs"
-version = "1.0.0"
-description = "A Django integration for SVCS"
 readme = "README.md"
+description = "A Django integration for SVCS"
 requires-python = ">=3.12"
 authors = [
   {name = "Chris Rose", email = "offline@offby1.net"}
@@ -15,7 +15,11 @@ maintainers = [
   {name = "Chris Rose", email = "offline@offby1.net"}
 ]
 classifiers = [
-
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
 ]
 license = {text = "BSD license"}
 dependencies = [
@@ -40,7 +44,7 @@ dev = [
 
 [project.urls]
 bugs = "https://github.com/offbyone/django_svcs/issues"
-changelog = "https://github.com/offbyone/django_svcs/blob/master/changelog.md"
+changelog = "https://github.com/offbyone/django_svcs/blob/main/CHANGELOG.md"
 homepage = "https://github.com/offbyone/django_svcs"
 
 [[tool.mypy.overrides]]
@@ -53,12 +57,28 @@ disable_error_code = "attr-defined"
 [tool.hatch.build.targets.wheel]
 packages = ["src/django_svcs"]
 
-[tool.hatch.metadata.hooks.fancy-pypi-readme]
-content-type = "text/markdown"
+[tool.hatch.version]
+source = "vcs"
+raw-options = { local_scheme = "no-local-version" }
 
 [tool.ruff]
 src = ["src", "tests", "conftest.py", "docs"]
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "tests.settings"
 looponfailroots = ["tests", "src"]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+source = ["django_svcs", "tests"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  # Typing-related
+  "if TYPE_CHECKING:",
+  ": +\\.\\.\\.$",
+]
