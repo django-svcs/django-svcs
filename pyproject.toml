@@ -30,7 +30,6 @@ dependencies = [
 tests = [
     "pytest",
     "pytest-xdist[psutil]",
-    "pytest-django",
     "django>=5.0"  # we don't force a Django version, but we do check it.
 ]
 cov = [
@@ -66,5 +65,4 @@ source = "vcs"
 src = ["src", "tests", "conftest.py", "docs"]
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "tests.settings"
 looponfailroots = ["tests", "src"]
