@@ -59,8 +59,12 @@ jobs:
       - uses: hynek/setup-cached-uv@v2
       - run: uv venv
       - run: uv pip install .[dev]
-      # Commented out because I don't have them yet :D
-      # - run: uv run pytest
+      - run: |
+          . .venv/bin/activate
+          python -msite
+          python -c 'import tests; print(tests)'
+          python -c 'import tests.settings; print(tests.settings)'
+          pytest
 
       - name: Upload coverage data
         uses: actions/upload-artifact@v4
