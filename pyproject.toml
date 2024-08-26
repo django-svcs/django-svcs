@@ -44,7 +44,7 @@ dev = [
 
 [project.urls]
 bugs = "https://github.com/offbyone/django_svcs/issues"
-changelog = "https://github.com/offbyone/django_svcs/blob/master/changelog.md"
+changelog = "https://github.com/offbyone/django_svcs/blob/main/CHANGELOG.md"
 homepage = "https://github.com/offbyone/django_svcs"
 
 [[tool.mypy.overrides]]
