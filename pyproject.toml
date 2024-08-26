@@ -66,3 +66,19 @@ src = ["src", "tests", "conftest.py", "docs"]
 
 [tool.pytest.ini_options]
 looponfailroots = ["tests", "src"]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+source = ["django_svcs", "tests"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  # Typing-related
+  "if TYPE_CHECKING:",
+  ": +\\.\\.\\.$",
+]

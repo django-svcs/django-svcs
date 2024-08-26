@@ -59,12 +59,7 @@ jobs:
       - uses: hynek/setup-cached-uv@v2
       - run: uv venv
       - run: uv pip install .[dev]
-      - run: |
-          . .venv/bin/activate
-          python -msite
-          python -c 'import tests; print(tests)'
-          python -c 'import tests.settings; print(tests.settings)'
-          pytest
+      - run: uv run coverage run -m pytest
 
       - name: Upload coverage data
         uses: actions/upload-artifact@v4
@@ -72,6 +67,50 @@ jobs:
           name: coverage-data-${{ matrix.python-version }}
           path: .coverage.*
           if-no-files-found: ignore
+
+  coverage:
+    name: Combine & check coverage
+    runs-on: ubuntu-latest
+    needs: tests
+
+    steps:
+      - name: Download pre-built packages
+        uses: actions/download-artifact@v4
+        with:
+          name: Packages
+          path: dist
+      - run: tar xf dist/*.tar.gz --strip-components=1
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version-default
+      - uses: hynek/setup-cached-uv@v2
+
+      - name: Download coverage data
+        uses: actions/download-artifact@v4
+        with:
+          pattern: coverage-data-*
+          merge-multiple: true
+
+      - run: uv venv
+      - name: Combine coverage & fail if it's <70%.
+        run: |
+          uv pip install --system coverage[toml]
+
+          uv run coverage combine
+          uv run coverage html --skip-covered --skip-empty
+
+          # Report and write to summary.
+          uv run coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+
+          # Report again and fail if under 70%.
+          uv run coverage report --fail-under=70
+
+      - name: Upload HTML report if check failed.
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-report
+          path: htmlcov
+        if: ${{ failure() }}
 
   docs:
     name: Build docs & run doctests
@@ -130,7 +169,7 @@ jobs:
     if: always()
 
     needs:
-      - tests
+      - coverage
       - docs
       - install-dev
       - pyright
