@@ -67,6 +67,10 @@ line-length = 100
 
 [tool.pytest.ini_options]
 looponfailroots = ["tests", "src"]
+filterwarnings = [
+    # I know looponfailroots is 'deprecated' but ... i'm tired of seeing it
+    "ignore::DeprecationWarning:xdist.plugin"
+]
 
 [tool.coverage.run]
 branch = true
