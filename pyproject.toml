@@ -71,6 +71,7 @@ filterwarnings = [
     # I know looponfailroots is 'deprecated' but ... i'm tired of seeing it
     "ignore::DeprecationWarning:xdist.plugin"
 ]
+asyncio_default_fixture_loop_scope = "function"
 
 [tool.coverage.run]
 branch = true
@@ -86,4 +87,10 @@ exclude_lines = [
   # Typing-related
   "if TYPE_CHECKING:",
   ": +\\.\\.\\.$",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest-asyncio>=0.24.0",
+    "pytest-django>=4.9.0",
 ]

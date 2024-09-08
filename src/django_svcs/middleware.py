@@ -1,16 +1,39 @@
-import svcs
+import asyncio
+from typing import Callable
+
 from django.http import HttpRequest, HttpResponse
+from django.utils.decorators import sync_and_async_middleware
 
-from . import apps
+from .apps import svcs_from
+
+# pyright: reportRedeclaration=false
 
 
-def request_container(get_response):
+@sync_and_async_middleware
+def request_container(get_response: Callable):
     """Middleware that attaches a service container to the request"""
+    if asyncio.iscoroutinefunction(get_response):
 
-    def middleware(request: HttpRequest) -> HttpResponse:
-        with svcs.Container(registry=apps.get_registry()) as con:
-            setattr(request, apps._KEY_CONTAINER, con)
+        async def middleware(request: HttpRequest) -> HttpResponse:
+            """
+            Asynchronous middleware function which attaches a
+            service container to the request.
 
-            return get_response(request)
+            """
+            with svcs_from(request):
+                response = await get_response(request)
+                return response
+
+    else:
+
+        def middleware(request: HttpRequest) -> HttpResponse:
+            """
+            Synchronous middleware function which attaches a
+            service container to the request.
+
+            """
+            with svcs_from(request):
+                response = get_response(request)
+                return response
 
     return middleware

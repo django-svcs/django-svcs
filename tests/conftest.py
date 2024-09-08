@@ -16,3 +16,10 @@ def _settings(settings_module):
     django.setup()
 
     return settings
+
+
+@pytest.fixture(scope="function", autouse=True)
+def _dj_autoclear_mailbox() -> None:
+    # Override the `_dj_autoclear_mailbox` test fixture in `pytest_django`.
+    # This works around https://github.com/pytest-dev/pytest-django/issues/993
+    pass

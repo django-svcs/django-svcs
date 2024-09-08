@@ -2,12 +2,14 @@ from importlib import import_module
 from typing import Protocol, cast
 
 import svcs
+from asgiref.local import Local
 from django.apps import AppConfig, apps
-from django.conf import LazySettings, Settings, settings
+from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpRequest
 
 _KEY_CONTAINER = "svcs_container"
+_NON_REQUEST_CONTEXT = Local()
 
 
 class DjangoRegistryContainer(Protocol):
@@ -15,14 +17,16 @@ class DjangoRegistryContainer(Protocol):
 
 
 class SvcsConfig(AppConfig):
-    """Django AppConfig for the services module
+    """
+    Django AppConfig for the services module
 
     This appconfig creates a registry for services and initializes it with services from the project
     and all installed apps that provide `services.svcs_init` functions.
 
-    In order to be fully functional, it's necessary to add request wrapping middleware
-    to your project by including the `django_svcs.middleware.request_container` middleware
-    in your `MIDDLEWARE` setting. It must be before any middleware that accesses services.
+    In order to be fully functional, it's necessary to add request wrapping middleware to your
+    project by including the `django_svcs.middleware.request_container` middleware in your
+    `MIDDLEWARE` setting. It must be before any middleware that accesses services.
+
     """
 
     name = "django_svcs"
@@ -67,19 +71,14 @@ def close_registry(app_config: DjangoRegistryContainer | None = None) -> None:
 
 
 def svcs_from(
-    context: HttpRequest | Settings | LazySettings | None = None,
+    request: HttpRequest | None = None,
 ) -> svcs.Container:
-    """Get the current container from either the request or the settings object.
-
-    The settings should be used to access services with no request context; this is useful when
-    working in task contexts.
+    """
+    Get the current container from the request, if provided, or from a thread/task-local storage
+    if no request is provided.
 
     """
-    if context is None:
-        from django.conf import settings
-
-        context = settings
-
+    context = request or _NON_REQUEST_CONTEXT
     if not hasattr(context, _KEY_CONTAINER):
         setattr(context, _KEY_CONTAINER, svcs.Container(registry=get_registry()))
 
