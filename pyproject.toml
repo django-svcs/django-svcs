@@ -63,6 +63,7 @@ raw-options = { local_scheme = "no-local-version" }
 
 [tool.ruff]
 src = ["src", "tests", "conftest.py", "docs"]
+line-length = 100
 
 [tool.pytest.ini_options]
 looponfailroots = ["tests", "src"]
