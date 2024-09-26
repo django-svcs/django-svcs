@@ -23,7 +23,8 @@ classifiers = [
 ]
 license = {text = "BSD license"}
 dependencies = [
-  "svcs"
+  "djp~=0.2",
+  "svcs",
 ]
 
 [project.optional-dependencies]
@@ -44,8 +45,13 @@ dev = [
 
 [project.urls]
 bugs = "https://github.com/offbyone/django_svcs/issues"
-changelog = "https://github.com/offbyone/django_svcs/blob/main/CHANGELOG.md"
-homepage = "https://github.com/offbyone/django_svcs"
+changelog = "https://github.com/django-svcs/django-svcs/blob/main/CHANGELOG.md"
+homepage = "https://github.com/django-svcs/django-svcs"
+issues = "https://github.com/django-svcs/django-svcs/issues"
+CI = "https://github.com/django-svcs/django-svcs/actions"
+
+[project.entry-points.djp]
+django_svcs = "django_svcs.plugin"
 
 [[tool.mypy.overrides]]
 # Don't require test functions to include types
@@ -72,6 +78,7 @@ filterwarnings = [
     "ignore::DeprecationWarning:xdist.plugin"
 ]
 asyncio_default_fixture_loop_scope = "function"
+DJANGO_SETTINGS_MODULE = "tests.test_project.settings"
 
 [tool.coverage.run]
 branch = true
