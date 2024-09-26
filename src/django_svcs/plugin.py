@@ -15,10 +15,15 @@ def urlpatterns():
 def settings(current_settings):
     # find django_svcs in INSTALLED_APPS and move it so it's right after django.contrib.sessions
     installed_apps = current_settings["INSTALLED_APPS"]
-    installed_apps.remove("django_svcs")
-    installed_apps.insert(
-        installed_apps.index("django.contrib.sessions") + 1, "django_svcs"
-    )
+    try:
+        insert_index = installed_apps.index("django.contrib.sessions")
+    except ValueError:
+        insert_index = None
+
+    if insert_index is not None:
+        installed_apps.remove("django_svcs")
+
+        installed_apps.insert(insert_index + 1, "django_svcs")
 
 
 @djp.hookimpl
