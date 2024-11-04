@@ -30,7 +30,7 @@ def _async_view():
 
 
 @pytest.mark.django_db
-def test_sync_middleware(svcs_from, sync_view):
+def test_sync_middleware(svcs_from, sync_view) -> None:
     request = RequestFactory().get("/")
     chain = middleware.request_container(sync_view)
     response = chain(request)
@@ -42,7 +42,7 @@ def test_sync_middleware(svcs_from, sync_view):
 
 @pytest.mark.django_db
 @pytest.mark.asyncio
-async def test_async_middleware(svcs_from, async_view):
+async def test_async_middleware(svcs_from, async_view) -> None:
     request = AsyncRequestFactory().get("/")
     chain = middleware.request_container(async_view)
     response = await chain(request)

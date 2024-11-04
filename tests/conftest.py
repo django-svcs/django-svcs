@@ -4,7 +4,7 @@ import pytest
 
 
 @pytest.fixture(autouse=True, name="settings_module", scope="session")
-def settings_module():
+def settings_module() -> None:
     os.environ["DJANGO_SETTINGS_MODULE"] = "tests.settings"
 
 

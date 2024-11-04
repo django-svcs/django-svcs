@@ -12,7 +12,7 @@ def urlpatterns():
 
 
 @djp.hookimpl
-def settings(current_settings):
+def settings(current_settings) -> None:
     # find django_svcs in INSTALLED_APPS and move it so it's right after django.contrib.sessions
     installed_apps = current_settings["INSTALLED_APPS"]
     try:
