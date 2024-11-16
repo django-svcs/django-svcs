@@ -81,25 +81,14 @@ exclude_lines = [
 ]
 
 [dependency-groups]
-types = [
+dev = [
     "autotyping>=24.9.0",
     "django-types>=0.19.1",
     "pyright>=1.1.387",
-]
-tests = [
     "pytest",
     "pytest-xdist[psutil]",
     "pytest-asyncio>=0.24.0",
     "pytest-django>=4.9.0",
-    "django>=5.0"  # we don't force a Django version, but we do check it.
-]
-cov = [
-    "django_svcs[tests]",
+    "django>=5.0",  # we don't force a Django version, but we do test against it.
     "coverage[toml]>=5.3",
-]
-dev = [
-    "django_svcs[cov]",
-    "django_svcs[docs]",
-    "django_svcs[types]",
-    "django_svcs[tests]",
 ]

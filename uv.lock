@@ -95,7 +95,7 @@ wheels = [
 
 [[package]]
 name = "django-svcs"
-version = "0.3.3.dev10"
+version = "0.3.3.dev11"
 source = { editable = "." }
 dependencies = [
     { name = "djp" },
@@ -103,20 +103,16 @@ dependencies = [
 ]
 
 [package.dev-dependencies]
-cov = [
+dev = [
+    { name = "autotyping" },
     { name = "coverage" },
-]
-tests = [
     { name = "django" },
+    { name = "django-types" },
+    { name = "pyright" },
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "pytest-django" },
     { name = "pytest-xdist", extra = ["psutil"] },
-]
-types = [
-    { name = "autotyping" },
-    { name = "django-types" },
-    { name = "pyright" },
 ]
 
 [package.metadata]
@@ -126,27 +122,16 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-cov = [
-    { name = "coverage", extras = ["toml"], specifier = ">=5.3" },
-    { name = "django-svcs", extras = ["tests"] },
-]
 dev = [
-    { name = "django-svcs", extras = ["cov"] },
-    { name = "django-svcs", extras = ["docs"] },
-    { name = "django-svcs", extras = ["tests"] },
-    { name = "django-svcs", extras = ["types"] },
-]
-tests = [
+    { name = "autotyping", specifier = ">=24.9.0" },
+    { name = "coverage", extras = ["toml"], specifier = ">=5.3" },
     { name = "django", specifier = ">=5.0" },
+    { name = "django-types", specifier = ">=0.19.1" },
+    { name = "pyright", specifier = ">=1.1.387" },
     { name = "pytest" },
     { name = "pytest-asyncio", specifier = ">=0.24.0" },
     { name = "pytest-django", specifier = ">=4.9.0" },
     { name = "pytest-xdist", extras = ["psutil"] },
-]
-types = [
-    { name = "autotyping", specifier = ">=24.9.0" },
-    { name = "django-types", specifier = ">=0.19.1" },
-    { name = "pyright", specifier = ">=1.1.387" },
 ]
 
 [[package]]
