@@ -1,8 +1,3 @@
-venv_path := justfile_directory() / ".venv"
-set dotenv-load := true
-os := os()
-devcontainer := if env_var_or_default("USER", "nobody") == "vscode" {"true"} else {"false"}
-
 clean: clean-build clean-test
 
 clean-build:
@@ -18,18 +13,36 @@ clean-test:
     rm -fr .pytest_cache
 
 lint:
-    uv run ruff check
-    uv run ruff format --check
+    uv tool run ruff check
+    uv tool run ruff format --check
 
 lint-fix:
-    uv run ruff check --fix
-    uv run ruff format
+    uv tool run ruff check --fix
+    uv tool run ruff format
+
+types:
+    uv run pyright src
 
 test:
-    uv run pytest
+    uv run pytest tests
+
+test-coverage:
+    uv run coverage run -p -m pytest tests
+
+merge-coverage:
+    uv run coverage combine
+    uv run coverage html --skip-covered --skip-empty
+
+    # Report and write to summary (if on github actions).
+    if [ -n "$$GITHUB_ACTIONS" ]; then \
+        uv run coverage report --format=markdown >> $$GITHUB_STEP_SUMMARY; \
+    fi
+
+    # Report again and fail if under 70%.
+    uv run coverage report --fail-under=70
 
 dist:
-    uvx --from build pyproject-build --installer uv
+    uv build
     ls -l dist
 
 upload-test:

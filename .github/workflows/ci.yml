@@ -58,9 +58,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
       - uses: hynek/setup-cached-uv@v2
-      - run: uv venv
-      - run: uv pip install .[dev]
-      - run: uv run coverage run -p -m pytest
+      - uses: extractions/setup-just@v2
+      - run: just test-coverage
 
       - name: Upload coverage data
         uses: actions/upload-artifact@v4
@@ -85,6 +84,7 @@ jobs:
         with:
           python-version-file: .python-version-default
       - uses: hynek/setup-cached-uv@v2
+      - uses: extractions/setup-just@v2
 
       - name: Download coverage data
         uses: actions/download-artifact@v4
@@ -92,26 +92,15 @@ jobs:
           pattern: coverage-data-*
           merge-multiple: true
 
-      - run: uv venv
       - name: Combine coverage & fail if it's <70%.
-        run: |
-          uv pip install --system coverage[toml]
+        run: just merge-coverage
 
-          uv run coverage combine
-          uv run coverage html --skip-covered --skip-empty
-
-          # Report and write to summary.
-          uv run coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
-
-          # Report again and fail if under 70%.
-          uv run coverage report --fail-under=70
-
-      - name: Upload HTML report if check failed.
+      - name: Upload the coverage HTML report
         uses: actions/upload-artifact@v4
         with:
           name: html-report
           path: htmlcov
-        if: ${{ failure() }}
+        if: ${{ always() }}
 
   docs:
     name: Build docs & run doctests
@@ -131,6 +120,21 @@ jobs:
       - uses: hynek/setup-cached-uv@v2
       - run: uv venv
 
+  lint:
+    name: Source linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version-default
+      - uses: hynek/setup-cached-uv@v2
+      - uses: extractions/setup-just@v2
+
+      - run: just lint
+
   pyright:
     name: Check types using pyright
     runs-on: ubuntu-latest
@@ -142,10 +146,9 @@ jobs:
         with:
           python-version-file: .python-version-default
       - uses: hynek/setup-cached-uv@v2
+      - uses: extractions/setup-just@v2
 
-      - run: uv venv
-      - run: uv pip install .[dev] pyright typing
-      - run: uv run pyright src
+      - run: just types
 
   zizmor:
     name: Zizmor latest via Cargo
@@ -205,6 +208,7 @@ jobs:
       - coverage
       - docs
       - install-dev
+      - lint
       - pyright
       - zizmor
 

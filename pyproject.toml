@@ -27,22 +27,6 @@ dependencies = [
   "svcs",
 ]
 
-[project.optional-dependencies]
-tests = [
-    "pytest",
-    "pytest-xdist[psutil]",
-    "django>=5.0"  # we don't force a Django version, but we do check it.
-]
-cov = [
-    "django_svcs[tests]",
-    "coverage[toml]>=5.3",
-]
-docs = []
-dev = [
-    "django_svcs[cov]",
-    "django_svcs[docs]",
-]
-
 [project.urls]
 bugs = "https://github.com/offbyone/django_svcs/issues"
 changelog = "https://github.com/django-svcs/django-svcs/blob/main/CHANGELOG.md"
@@ -78,7 +62,7 @@ filterwarnings = [
     "ignore::DeprecationWarning:xdist.plugin"
 ]
 asyncio_default_fixture_loop_scope = "function"
-DJANGO_SETTINGS_MODULE = "tests.test_project.settings"
+DJANGO_SETTINGS_MODULE = "test_project.settings"
 
 [tool.coverage.run]
 branch = true
@@ -96,8 +80,15 @@ exclude_lines = [
   ": +\\.\\.\\.$",
 ]
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
+    "autotyping>=24.9.0",
+    "django-types>=0.19.1",
+    "pyright>=1.1.387",
+    "pytest",
+    "pytest-xdist[psutil]",
     "pytest-asyncio>=0.24.0",
     "pytest-django>=4.9.0",
+    "django>=5.0",  # we don't force a Django version, but we do test against it.
+    "coverage[toml]>=5.3",
 ]
