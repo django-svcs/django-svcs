@@ -89,6 +89,8 @@ types = [
 tests = [
     "pytest",
     "pytest-xdist[psutil]",
+    "pytest-asyncio>=0.24.0",
+    "pytest-django>=4.9.0",
     "django>=5.0"  # we don't force a Django version, but we do check it.
 ]
 cov = [
@@ -98,6 +100,6 @@ cov = [
 dev = [
     "django_svcs[cov]",
     "django_svcs[docs]",
-    "pytest-asyncio>=0.24.0",
-    "pytest-django>=4.9.0",
+    "django_svcs[types]",
+    "django_svcs[tests]",
 ]

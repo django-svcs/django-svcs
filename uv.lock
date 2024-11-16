@@ -95,7 +95,7 @@ wheels = [
 
 [[package]]
 name = "django-svcs"
-version = "0.3.3.dev7"
+version = "0.3.3.dev10"
 source = { editable = "." }
 dependencies = [
     { name = "djp" },
@@ -106,13 +106,11 @@ dependencies = [
 cov = [
     { name = "coverage" },
 ]
-dev = [
-    { name = "pytest-asyncio" },
-    { name = "pytest-django" },
-]
 tests = [
     { name = "django" },
     { name = "pytest" },
+    { name = "pytest-asyncio" },
+    { name = "pytest-django" },
     { name = "pytest-xdist", extra = ["psutil"] },
 ]
 types = [
@@ -135,13 +133,14 @@ cov = [
 dev = [
     { name = "django-svcs", extras = ["cov"] },
     { name = "django-svcs", extras = ["docs"] },
-    { name = "pytest-asyncio", specifier = ">=0.24.0" },
-    { name = "pytest-django", specifier = ">=4.9.0" },
+    { name = "django-svcs", extras = ["tests"] },
+    { name = "django-svcs", extras = ["types"] },
 ]
-docs = []
 tests = [
     { name = "django", specifier = ">=5.0" },
     { name = "pytest" },
+    { name = "pytest-asyncio", specifier = ">=0.24.0" },
+    { name = "pytest-django", specifier = ">=4.9.0" },
     { name = "pytest-xdist", extras = ["psutil"] },
 ]
 types = [
