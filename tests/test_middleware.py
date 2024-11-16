@@ -16,7 +16,7 @@ def mock_svcs_from():
 @pytest.fixture(name="sync_view")
 def _sync_view():
     def view(request: HttpRequest) -> HttpResponse:
-        return HttpResponse("Sync response")
+        return HttpResponse(b"Sync response")
 
     return view
 
@@ -24,7 +24,7 @@ def _sync_view():
 @pytest.fixture(name="async_view")
 def _async_view():
     async def view(request: HttpRequest) -> HttpResponse:
-        return HttpResponse("Async response")
+        return HttpResponse(b"Async response")
 
     return view
 

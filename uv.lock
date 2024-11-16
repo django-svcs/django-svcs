@@ -95,36 +95,25 @@ wheels = [
 
 [[package]]
 name = "django-svcs"
-version = "0.3.3.dev6"
+version = "0.3.3.dev7"
 source = { editable = "." }
 dependencies = [
     { name = "djp" },
     { name = "svcs" },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 cov = [
     { name = "coverage" },
-    { name = "django" },
-    { name = "pytest" },
-    { name = "pytest-xdist", extra = ["psutil"] },
 ]
 dev = [
-    { name = "coverage" },
-    { name = "django" },
-    { name = "pytest" },
-    { name = "pytest-xdist", extra = ["psutil"] },
+    { name = "pytest-asyncio" },
+    { name = "pytest-django" },
 ]
 tests = [
     { name = "django" },
     { name = "pytest" },
     { name = "pytest-xdist", extra = ["psutil"] },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "pytest-asyncio" },
-    { name = "pytest-django" },
 ]
 types = [
     { name = "autotyping" },
@@ -134,25 +123,26 @@ types = [
 
 [package.metadata]
 requires-dist = [
-    { name = "coverage", extras = ["toml"], marker = "extra == 'cov'", specifier = ">=5.3" },
-    { name = "coverage", extras = ["toml"], marker = "extra == 'dev'", specifier = ">=5.3" },
-    { name = "django", marker = "extra == 'cov'", specifier = ">=5.0" },
-    { name = "django", marker = "extra == 'dev'", specifier = ">=5.0" },
-    { name = "django", marker = "extra == 'tests'", specifier = ">=5.0" },
     { name = "djp", specifier = "~=0.2" },
-    { name = "pytest", marker = "extra == 'cov'" },
-    { name = "pytest", marker = "extra == 'dev'" },
-    { name = "pytest", marker = "extra == 'tests'" },
-    { name = "pytest-xdist", extras = ["psutil"], marker = "extra == 'cov'" },
-    { name = "pytest-xdist", extras = ["psutil"], marker = "extra == 'dev'" },
-    { name = "pytest-xdist", extras = ["psutil"], marker = "extra == 'tests'" },
     { name = "svcs" },
 ]
 
 [package.metadata.requires-dev]
+cov = [
+    { name = "coverage", extras = ["toml"], specifier = ">=5.3" },
+    { name = "django-svcs", extras = ["tests"] },
+]
 dev = [
+    { name = "django-svcs", extras = ["cov"] },
+    { name = "django-svcs", extras = ["docs"] },
     { name = "pytest-asyncio", specifier = ">=0.24.0" },
     { name = "pytest-django", specifier = ">=4.9.0" },
+]
+docs = []
+tests = [
+    { name = "django", specifier = ">=5.0" },
+    { name = "pytest" },
+    { name = "pytest-xdist", extras = ["psutil"] },
 ]
 types = [
     { name = "autotyping", specifier = ">=24.9.0" },
