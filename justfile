@@ -13,15 +13,15 @@ clean-test:
     rm -fr .pytest_cache
 
 lint:
-    uv run ruff check
-    uv run ruff format --check
+    uv tool run ruff check
+    uv tool run ruff format --check
+
+lint-fix:
+    uv tool run ruff check --fix
+    uv tool run ruff format
 
 types:
     uv run pyright src
-
-lint-fix:
-    uv run ruff check --fix
-    uv run ruff format
 
 test:
     uv run pytest tests
