@@ -95,7 +95,7 @@ wheels = [
 
 [[package]]
 name = "django-svcs"
-version = "0.3.3.dev11"
+version = "0.3.3.dev14"
 source = { editable = "." }
 dependencies = [
     { name = "djp" },
@@ -117,7 +117,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "djp", specifier = "~=0.2" },
+    { name = "djp", specifier = "~=0.3" },
     { name = "svcs" },
 ]
 
@@ -148,15 +148,15 @@ wheels = [
 
 [[package]]
 name = "djp"
-version = "0.2"
+version = "0.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
     { name = "pluggy" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a7/1b/1ed40d2332a86b661e0a9c6e8ea27c7a7b336a5c39501fca4aa331a27bbd/djp-0.2.tar.gz", hash = "sha256:7a1a57197fd4a4678cbdcfebe925746651a8d9e1dc88895be4b46f2822af6e23", size = 8374 }
+sdist = { url = "https://files.pythonhosted.org/packages/83/58/95fdfa5c5d9b7c64a96599b9f5fbfa34c254c28961ddd93491cf4e550b22/djp-0.3.1.tar.gz", hash = "sha256:7d447c2f42282ec7628567e4ece5090ef37095b87e0853ebe8f0b876a1143e83", size = 8668 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7d/39/4dbf0b8a196a45cf19318c14265533d00d3f845adaccd121df30d6b73a2d/djp-0.2-py3-none-any.whl", hash = "sha256:c9d0c59b649a1a3a96efebaf1d85c2bf1319e610f2d2134373434e99cb28ae44", size = 8713 },
+    { url = "https://files.pythonhosted.org/packages/60/73/0dc7d0c372ed366ecb8b7dd760525c90f53e0e2f40f8e944cd810d017a4a/djp-0.3.1-py3-none-any.whl", hash = "sha256:dd2490907d503fef0f1a729d00268fbcb7c11c77b33b9a46b6d13cc7cb5dc389", size = 8813 },
 ]
 
 [[package]]
