@@ -23,7 +23,7 @@ classifiers = [
 ]
 license = {text = "BSD license"}
 dependencies = [
-  "djp~=0.2",
+  "djp>=0.0,<1.0",
   "svcs",
 ]
 
